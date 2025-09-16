@@ -1,6 +1,6 @@
 import re
-import tkinter as tk
-from tkinter import ttk, messagebox
+import customtkinter as ctk
+from tkinter import messagebox
 
 def load_weak_passwords():
     try:
@@ -55,68 +55,88 @@ def check_password_strength(password, profile_info):
         strength = "Strong"
     return strength, feedback, score, weak_flag
 
-def run_gui(profile_info):
+def run_gui():
     def on_check_password():
+        name = entry_name.get().strip()
+        email = entry_email.get().strip()
+        username = entry_username.get().strip()
         password = entry_password.get()
+        if not name or not email or not username or not password:
+            messagebox.showwarning("Validation Error", "All fields must be filled in.")
+            return
+        if "@" not in email or "." not in email:
+            messagebox.showwarning("Validation Error", "Enter a valid email address.")
+            return
+        profile_info = [name, email, username]
         strength, feedback, score, weak_flag = check_password_strength(password, profile_info)
         if weak_flag:
-            progress["value"] = 0
-            style.configure("red.Horizontal.TProgressbar", foreground="red", background="red")
-            progress.config(style="red.Horizontal.TProgressbar")
-            lbl_strength.config(text="Strength: Very Weak (Common Password)")
+            progress.set(0)
+            lbl_strength.configure(text="Strength: Very Weak (Common Password)", text_color="red")
         else:
-            progress["value"] = max(0, min(score * 10, 100))
+            progress.set(max(0, min(score * 10, 100)))
             if strength == "Weak":
-                style.configure("red.Horizontal.TProgressbar", foreground="red", background="red")
-                progress.config(style="red.Horizontal.TProgressbar")
+                lbl_strength.configure(text=f"Strength: {strength}", text_color="red")
             elif strength == "Medium":
-                style.configure("yellow.Horizontal.TProgressbar", foreground="orange", background="orange")
-                progress.config(style="yellow.Horizontal.TProgressbar")
+                lbl_strength.configure(text=f"Strength: {strength}", text_color="orange")
             else:
-                style.configure("green.Horizontal.TProgressbar", foreground="green", background="green")
-                progress.config(style="green.Horizontal.TProgressbar")
-            lbl_strength.config(text=f"Strength: {strength}")
-        txt_feedback.delete("1.0", tk.END)
+                lbl_strength.configure(text=f"Strength: {strength}", text_color="green")
+        txt_feedback.delete("0.0", "end")
         if feedback:
-            txt_feedback.insert(tk.END, "\n".join(feedback))
+            txt_feedback.insert("end", "\n".join(feedback))
         if strength == "Strong" and not weak_flag:
             messagebox.showinfo("Password Checker", "✅ Password accepted! Your password is strong.")
 
     def toggle_password_visibility():
         if entry_password.cget("show") == "":
-            entry_password.config(show="*")
-            btn_toggle.config(text="Show")
+            entry_password.configure(show="*")
+            btn_toggle.configure(text="Show")
         else:
-            entry_password.config(show="")
-            btn_toggle.config(text="Hide")
+            entry_password.configure(show="")
+            btn_toggle.configure(text="Hide")
 
-    root = tk.Tk()
+    ctk.set_appearance_mode("dark")
+    ctk.set_default_color_theme("blue")
+
+    root = ctk.CTk()
     root.title("Password Strength Checker")
-    tk.Label(root, text="Enter Password:", font=("Arial", 12)).pack(pady=5)
-    frame = tk.Frame(root)
-    frame.pack(pady=5)
-    entry_password = tk.Entry(frame, show="*", width=30, font=("Arial", 12))
-    entry_password.pack(side="left")
-    btn_toggle = tk.Button(frame, text="Show", command=toggle_password_visibility)
-    btn_toggle.pack(side="left", padx=5)
-    btn_check = tk.Button(root, text="Check Strength", command=on_check_password)
-    btn_check.pack(pady=10)
-    global style
-    style = ttk.Style()
-    progress = ttk.Progressbar(root, orient="horizontal", length=300, mode="determinate")
-    progress.pack(pady=5)
-    lbl_strength = tk.Label(root, text="Strength: N/A", font=("Arial", 12, "bold"))
+    root.geometry("500x650")
+
+    title = ctk.CTkLabel(root, text="🔑 Password Strength Checker", font=("Arial", 18, "bold"))
+    title.pack(pady=10)
+
+    entry_name = ctk.CTkEntry(root, placeholder_text="Enter Name", width=300)
+    entry_name.pack(pady=10)
+
+    entry_email = ctk.CTkEntry(root, placeholder_text="Enter Email", width=300)
+    entry_email.pack(pady=10)
+
+    entry_username = ctk.CTkEntry(root, placeholder_text="Enter Username", width=300)
+    entry_username.pack(pady=10)
+
+    frame = ctk.CTkFrame(root)
+    frame.pack(pady=10)
+    entry_password = ctk.CTkEntry(frame, placeholder_text="Enter Password", width=220, show="*")
+    entry_password.pack(side="left", padx=5)
+    btn_toggle = ctk.CTkButton(frame, text="Show", width=60, command=toggle_password_visibility)
+    btn_toggle.pack(side="left")
+
+    btn_check = ctk.CTkButton(root, text="Check Strength", command=on_check_password)
+    btn_check.pack(pady=15)
+
+    progress = ctk.CTkProgressBar(root, width=300)
+    progress.set(0)
+    progress.pack(pady=10)
+
+    lbl_strength = ctk.CTkLabel(root, text="Strength: N/A", font=("Arial", 14, "bold"))
     lbl_strength.pack(pady=5)
-    tk.Label(root, text="Suggestions:", font=("Arial", 10, "bold")).pack(pady=5)
-    txt_feedback = tk.Text(root, height=6, width=40, wrap="word")
-    txt_feedback.pack(pady=5)
+
+    lbl_suggestion = ctk.CTkLabel(root, text="Suggestions:", font=("Arial", 12, "bold"))
+    lbl_suggestion.pack(pady=5)
+
+    txt_feedback = ctk.CTkTextbox(root, width=400, height=150)
+    txt_feedback.pack(pady=10)
+
     root.mainloop()
 
 if __name__ == "__main__":
-    print("Enter your profile details (for uniqueness check):")
-    name = input("Enter your name: ")
-    email = input("Enter your email: ")
-    username = input("Enter your username: ")
-    profile_info = [name, email, username]
-    print("\nLaunching GUI Password Strength Checker...")
-    run_gui(profile_info)
+    run_gui()
