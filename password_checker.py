@@ -2,14 +2,76 @@ import re
 import customtkinter as ctk
 from tkinter import messagebox
 
-def load_weak_passwords():
-    try:
-        with open("common_passwords.txt", "r") as f:
-            return [line.strip().lower() for line in f.readlines()]
-    except FileNotFoundError:
-        return ["password", "123456", "qwerty", "letmein", "abc123"]
-
-weak_passwords = load_weak_passwords()
+weak_passwords = [
+    "123456",
+    "password",
+    "123456789",
+    "12345",
+    "12345678",
+    "qwerty",
+    "1234567",
+    "111111",
+    "123123",
+    "abc123",
+    "password1",
+    "1234",
+    "qwerty123",
+    "1q2w3e4r",
+    "iloveyou",
+    "000000",
+    "123321",
+    "qwertyuiop",
+    "letmein",
+    "welcome",
+    "zulong",
+    "zulu",
+    "zuly",
+    "zuma",
+    "zumb",
+    "zumi",
+    "zune",
+    "zuni",
+    "zuniga",
+    "zura",
+    "zuri",
+    "zurich",
+    "zuzia",
+    "zuzu",
+    "zwiep",
+    "zwin",
+    "zwirj",
+    "zwitterion",
+    "zwzwz",
+    "zxas",
+    "zxasqw",
+    "zxca",
+    "zxcasd",
+    "zxcmnb",
+    "zxcv",
+    "zxcvasdf",
+    "zxcvbn",
+    "zxczxc",
+    "zxeri",
+    "zxeriy",
+    "zxninja",
+    "zxzx",
+    "zyuw",
+    "zzaa",
+    "zzaq",
+    "zzooum",
+    "zztansx",
+    "zztop",
+    "zzxcvb",
+    "zzxx",
+    "zzxxvv",
+    "zzzaaa",
+    "zzzxxx",
+    "zzzz",
+    "zzzzz",
+    "zzzzzz",
+    "zzzzzzz",
+    "~bruins"
+]
 
 def check_password_strength(password, profile_info):
     score = 0

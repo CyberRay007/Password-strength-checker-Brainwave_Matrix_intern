@@ -1,39 +1,83 @@
 # Password Strength Checker
 
-A Python-based GUI tool that evaluates the strength of user-entered passwords.  
-Built using **Tkinter** with color-coded progress bar, weak password detection, and a show/hide password toggle.
+A Python-based GUI application built with CustomTkinter that helps users create strong and secure passwords.
+The tool checks password strength based on length, complexity, uniqueness, and a built-in weak password bank, while also ensuring the password doesn’t contain personal information (like name, email, or username).
 
----
+ # Features
+
+Modern GUI built with CustomTkinter (dark theme enabled).
+
+User enters Name, Email, Username, and Password directly in the app.
+
+Validates inputs (ensures all fields filled, checks valid email format).
+
+Analyzes password for:
+
+Minimum length (8+)
+
+Strong length (12+)
+
+Uppercase & lowercase letters
+
+Numbers
+
+Special characters (@, $, !, %, *, ?, &)
+
+Checks against a built-in bank of 70+ common weak passwords.
+
+Ensures password does not contain user’s personal info.
+
+Provides feedback & suggestions for improvement.
+
+Visual progress bar for password strength (Weak, Medium, Strong).
+
+Show/Hide password toggle.
+
+Alerts when password is strong .
+
+# Project Structure
 password-strength-checker/
 │
-├── Common_passwords.txt    # List of common weak passwords
-├── LICENSE                 # License file for the project
-├── README.md               # Documentation (this file)
-├── password_checker.py     # Main Python script (GUI & logic)
-└── requirements.txt        # Dependencies list
+├── password_checker.py      
+├── README.md                 
+└── LICENSE
+└── requirements.txt
 
----
+(Example with Name, Email, Username, Password fields)
 
-# Features
--  GUI built with Tkinter
--  Progress bar with **color feedback**
-  - Red = Weak
-  - Orange = Medium
-  - Green = Strong
--  Detects common weak passwords from `common_passwords.txt`
--  Prevents passwords containing personal info (name, email, username)
--  Show/Hide password toggle button
--  Feedback suggestions for stronger passwords
 
----
+Password Strength Feedback
 
-# Installation & Setup
-Clone the repo and run with Python 3:
+# Installation & Usage
 
-```bash
-git clone https://github.com/CyberRay007/password-strength-checker.git
+Clone the repository:
+
+git clone https://github.com/cyberray007/password-strength-checker.git
 cd password-strength-checker
-pip install -r requirements.txt
+
+
+# Install dependencies:
+
+pip install customtkinter
+
+
+Run the program:
+
 python password_checker.py
 
 
+Enter your Name, Email, Username, and Password in the GUI window.
+
+Click Check Strength → see feedback, suggestions, and strength meter.
+
+# Future Improvements
+
+Add real-time validation (disable button until inputs are valid).
+
+Implement a password generator (auto-create secure random passwords).
+
+Add copy-to-clipboard button for generated/entered passwords.
+
+Provide a dark/light mode toggle for the GUI.
+
+Store past checks securely for analysis (optional).
