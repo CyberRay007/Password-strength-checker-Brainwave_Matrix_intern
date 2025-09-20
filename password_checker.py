@@ -146,7 +146,7 @@ def run_gui():
         if feedback:
             txt_feedback.insert("end", "\n".join(feedback))
         if strength == "Strong" and not weak_flag:
-            messagebox.showinfo("Password Checker", "✅ Password accepted! Your password is strong.")
+            messagebox.showinfo("Password Checker", " Password accepted! Your password is strong.")
 
     def toggle_password_visibility():
         if entry_password.cget("show") == "":
